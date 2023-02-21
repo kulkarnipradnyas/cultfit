@@ -5,14 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
-public class SecurityConfig  {
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 
     private JWTAuthorizationEntryPoint authenticationEntryPoint;
 
@@ -30,9 +35,15 @@ public class SecurityConfig  {
     public SecurityConfig(JWTAuthorizationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
-
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 //        return http
 //                .authorizeRequests((authorize) -> authorize.anyRequest().authenticated()) // All requests require authentication
 ////                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
@@ -59,7 +70,7 @@ public class SecurityConfig  {
 
 //        http.addFilterAfter(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
+
     }
 
 }

@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-02-21T01:43:17.874374+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-02-22T00:41:41.111094+05:30[Asia/Kolkata]")
 @Validated
 public interface AuthApi {
 
@@ -112,7 +112,7 @@ public interface AuthApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    default ResponseEntity<Void> signupUser(@Parameter(in = ParameterIn.DEFAULT, description = "Create User", required=true, schema=@Schema()) @Valid @RequestBody User body, @Parameter(in = ParameterIn.HEADER, description = "Auto-generated ID, which uniquely identifies the request, available in the response.  When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Correlation-ID", required=false) String xCorrelationID, @Parameter(in = ParameterIn.HEADER, description = "User-provided token that can be used to trace a request or a group of requests sent to the service.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Request-ID", required=false) String xRequestID) {
+    default ResponseEntity<Void> signupUser(@Parameter(in = ParameterIn.DEFAULT, description = "Create User", required=true, schema=@Schema()) @Valid @RequestBody User body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AuthApi interface so no example is generated");

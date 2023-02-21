@@ -6,6 +6,7 @@ import com.authentication.authservice.entity.User;
 import com.authentication.authservice.repository.UserRepository;
 import com.authentication.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,11 +18,14 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    @Autowired
+    @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository userRepository;
@@ -40,18 +44,19 @@ public class AuthServiceImpl implements AuthService {
         userDb.setEmail(user.getEmail());
         userDb.setPhoneNumber(user.getPhoneNumber());
         userDb.setWorkEmailId(user.getWorkEmailId());
-        userDb.setRoles(Set.of((Role) user.getRoles()));
+        List<String> roleStrings = user.getRoles();
+        Set<Role> roles = IntStream.range(0, roleStrings.size())
+                .mapToObj(i -> new Role((long) i,roleStrings.get(i)))
+                .collect(Collectors.toSet());
+        userDb.setRoles(roles);
         userDb.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         Set<GrantedAuthority> claims=user.getRoles().stream().map((role)->{
             return new SimpleGrantedAuthority(role);
         }).collect(Collectors.toSet());
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                user.getEmail(), user.getPassword()));
 
-
-        String token = jwtTokenProvider.generateToken(authentication);
+        String token = jwtTokenProvider.generateToken(user.getUserName());
         return token;
     }
 }

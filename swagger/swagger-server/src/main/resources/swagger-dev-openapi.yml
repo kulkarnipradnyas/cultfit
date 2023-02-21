@@ -61,9 +61,9 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
   /auth/signup:
-    parameters:
-      - $ref: '#/components/parameters/XCorrelationId'
-      - $ref: '#/components/parameters/XRequestId'
+#    parameters:
+#      - $ref: '#/components/parameters/XCorrelationId'
+#      - $ref: '#/components/parameters/XRequestId'
 
     post:
       summary: Create User Signup
@@ -85,11 +85,11 @@ paths:
               token:
                 type: string
 
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/XCorrelationId'
-            X-Request-ID:
-              $ref: '#/components/headers/XRequestId'
+#          headers:
+#            X-Correlation-ID:
+#              $ref: '#/components/headers/XCorrelationId'
+#            X-Request-ID:
+#              $ref: '#/components/headers/XRequestId'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':

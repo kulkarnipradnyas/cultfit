@@ -9,7 +9,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.authentication.authservice.config",
-"com.authentication.authservice.model","com.authentication.authservice.controller"})
+"com.authentication.authservice.model","com.authentication.authservice.controller",
+		"com.authentication.authservice.service"})
 public class AuthServiceApplication {
 
 	@Bean
