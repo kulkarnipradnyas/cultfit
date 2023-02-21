@@ -1,0 +1,32 @@
+app:
+  jwt-secret: daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
+  #### for now converted secret in base64 and posted here, in real scenario, pick it from gopass,vault
+  jwt-expiration-milliseconds: 604800000
+server:
+  port: 8084
+  contest-path: /
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+
+spring:
+  profiles:
+    active: "dev"
+  main:
+    allow-bean-definition-overriding: true
+    ###useSSL=false specifies that SSL should not be used for the connection,serverTimezone=UTC specifies the timezone to use for the connection
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_db?useSSL=false&serverTimezone=UTC
+    username: root
+    password: Admin@123
+
+#### okta configurations
+okta:
+  oauth2:
+    issuer: https://dev-69209525.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oa8ayb95t1bqB2j25d7
+    client-secret: xp8qBty-GJRai94IIwfOde7wWc8JLqB43UN7STSI
+    scopes: openid, profile, email, offline_access

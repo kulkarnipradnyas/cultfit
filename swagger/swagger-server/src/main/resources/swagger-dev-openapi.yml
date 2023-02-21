@@ -1,0 +1,701 @@
+openapi: 3.0.2
+info:
+  title: Cult API v0
+  version: 0.0.11
+  x-olp-service:
+    name: cult
+    version: v0
+  description: |-
+    This API specification defines the interface for `Swagger Service`.
+
+tags:
+  - name: Cult Auth
+    description: Manage Cult Authentication
+  - name: API Information
+    description: Manage Cult Information
+security:
+  - Bearer: []
+
+paths:
+
+  /health:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+    get:
+      summary: Get health
+      operationId: getHealth
+      tags:
+        - API Information
+      description: |-
+        Get the health of the service
+      responses:
+        '200':
+          description: |-
+            the service health status
+          content:
+            application/json:
+              properties:
+                userName:
+                  type: string
+                password:
+                  type: string
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+
+  /auth/signup:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+
+    post:
+      summary: Create User Signup
+      operationId: signupUser
+      tags:
+        - Cult Auth
+      requestBody:
+        description: |-
+          Create User
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              token:
+                type: string
+
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+
+  /auth/signIn:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+
+    post:
+      summary: User SignIn
+      operationId: signIn
+      tags:
+        - Cult Auth
+      requestBody:
+        description: |-
+          SignIn User
+        required: true
+        content:
+          application/json:
+                userName:
+                  type: string
+                password:
+                  type: string
+
+      responses:
+        '200':
+          content:
+            application/json:
+              token:
+                type: string
+
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /version:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+    get:
+      summary: Get version
+      operationId: getVersion
+      tags:
+        - API Information
+      description: |-
+        Get the version of the service
+      responses:
+        '200':
+          description: |-
+            the service health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+
+  /openapi:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+    get:
+      summary: Get openapi
+      operationId: getOpenapi
+      tags:
+        - API Information
+      description: |-
+        Get the OpenApi specification of the service
+      responses:
+        '200':
+          description: |-
+            the openapi specification of the service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenapiSpecification'
+            text/yaml:
+              schema:
+                $ref: '#/components/schemas/OpenapiSpecification'
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+
+components:
+
+  headers:
+
+    XCorrelationId:
+      description: |-
+        Auto-generated ID, which uniquely identifies the request, available in the response.
+
+        When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.
+
+        If not present, one will be generated.
+      schema:
+        type: string
+      example: f9bc3746-79e5-4ae5-ba87-30a6f3b9faa2
+
+    XRequestId:
+      description: |-
+        User-provided token that can be used to trace a request or a group of requests sent to the service.
+
+        If not present, one will be generated.
+      schema:
+        type: string
+      example: REQ-7a0cdf45-c095-49ca-b1bd-6e12e153a5a7
+
+  parameters:
+
+    XCorrelationId:
+      in: header
+      name: X-Correlation-ID
+      description: |-
+        Auto-generated ID, which uniquely identifies the request, available in the response.
+
+        When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.
+
+        If not present, one will be generated.
+      required: false
+      schema:
+        type: string
+      example: f9bc3746-79e5-4ae5-ba87-30a6f3b9faa2
+
+    XRequestId:
+      in: header
+      name: X-Request-ID
+      description: |-
+        User-provided token that can be used to trace a request or a group of requests sent to the service.
+
+        If not present, one will be generated.
+      required: false
+      schema:
+        type: string
+      example: REQ-7a0cdf45-c095-49ca-b1bd-6e12e153a5a7
+
+  schemas:
+
+    DateTime:
+      title: DateTime
+      description: |-
+        The value should be in the format: `yyyy-MM-ddTHH:mm:ss(.NNN)Z` as per `IETF RFC3339`.
+      type: string
+      format: date-time
+      example: 2022-03-09T09:41:14.155Z
+  
+    DataVersion:
+      title: DataVersion
+      description: |-
+        Version of a specific data set
+      type: object
+      required:
+        - name
+        - version
+      properties:
+        name:
+          description: |-
+            Identifies a data set, e.g. a HRN, or a service specific identifier
+          type: string
+        version:
+          description: |-
+            The current version of this data set
+          type: string        
+   
+    ErrorResponse:
+      title: ErrorResponse
+      description: |-
+        The error data for any specific failure response.
+
+        This message format is used whenever the cult Service reports a failure to the caller.
+
+        The error codes allocated to this API definition are in the range of `E311001` to `E311999`.
+      type: object
+      required:
+        - title
+        - status
+        - code
+        - cause
+        - action
+        - correlationId
+      properties:
+        title:
+          description: |-
+            Error title
+          type: string
+          example: Input data validation failed
+        status:
+          description: |-
+            HTTP status code
+          type: integer
+          example: 4XX
+        code:
+          description: |-
+            Error code.
+          type: string
+          example: E311001
+        cause:
+          description: |-
+            The cause of the error
+          type: string
+          example: The input data in question does not meet validation rules
+        action:
+          description: |-
+            Actionable instructions for the API consumer
+          type: string
+          example: Correct input data and retry request
+        correlationId:
+          $ref: '#/components/schemas/XCorrelationId'
+        details:
+          description: Collection of error details
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseDetailsElement'
+
+    ErrorResponseDetailsElement:
+      title: ErrorResponseDetailsElement
+      description: Error response details element
+      type: object
+      properties:
+        title:
+          description: |-
+            Error message title
+          type: string
+          example: Not accessible
+        source:
+          description: |-
+            Reference to JSON path or Property Reference
+          type: string
+          example: resourceId
+        message:
+          description: |-
+            Localized message string that describes the issue with the cited source.
+
+            Corrective action for the caller should be provided if appropriate and known.
+          type: string
+          example: String is not accessible is not accessible
+        messageTemplate:
+          description: |-
+            The template to display the message
+          type: string
+          example: validation.constraint.between
+        messagePlaceholders:
+          type: object
+          additionalProperties: {}
+          example:
+            field: size
+            min: 3
+            max: 64
+
+    ExternalErrorResponse:
+      title: ExternalErrorResponse
+      description: |-
+        The error data for any specific failure response.
+
+        This message format is used whenever the gateway reports an error
+      type: object
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          description: Error title
+          type: string
+          example: Input data failed validation
+        error_description:
+          description: Descriptive error message.
+          type: string
+          example: Requested resource not found
+
+    HealthStatus:
+      title: HealthStatus
+      description: |-
+        The health status of the service
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: The health status of the service
+          example: OK
+
+
+    OpenapiSpecification:
+      title: OpenapiSpecification
+      description: API response for the openapi endpoint
+      type: object
+      additionalProperties: true
+
+    SecurityQuestion:
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+
+    User:
+      title: User
+      description: User information
+      type: object
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+          format: tel
+        workEmailId:
+          type: string
+          format: email
+        roles:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+          example:
+            - admin
+            - vendor
+            - user
+        securityQuestion:
+          type: object
+          ref: '#/components/schemas/SecurityQuestion'
+    
+    VersionInfo:
+      title: VersionInfo
+      description: |-
+        The version info of the service
+      type: object
+      required:
+        - apiVersion
+        - serviceVersion
+      properties:
+        apiVersion:
+          description: |-
+            The api version
+          type: string
+          example: '1.0.0'
+        serviceVersion:
+          description: |-
+            The service version
+          type: string
+          example: '1.0.0'
+        dataVersions:
+          description: |-
+            Returns the versions of data sets used by the service
+          type: array
+          items:
+            $ref: '#/components/schemas/DataVersion'
+
+    XCorrelationId:
+      title: XCorrelationId
+      description: |-
+        Auto-generated ID, which uniquely identifies the request, available in the response.
+
+        When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.
+
+        If not present, one will be generated.
+      type: string
+      example: f9bc3746-79e5-4ae5-ba87-30a6f3b9faa2
+
+  responses:
+
+    BadRequest:
+      description: The request could not be understood by the server due to malformed syntax
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: The request requires user authentication
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExternalErrorResponse'
+
+    Forbidden:
+      description: The request cannot be fulfilled
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExternalErrorResponse'
+
+    NotFound:
+      description: The server can not find the requested resource
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    MethodNotAllowed:
+      description: The request method is known by the server but is not supported by the target resource
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Conflict:
+      description: The request conflicts with the current state of the server
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Gone:
+      description: The access to the target resource is no longer available at the origin server
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    PreconditionFailed:
+      description: The client has indicated preconditions which the server does not meet
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    BadGateway:
+      description: The server received an invalid response from the upstream server
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ServiceUnavailable:
+      description: The server is not ready to handle the request
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    GatewayTimeout:
+      description: The server did not get a response in time
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ErrorResponse:
+      description: API response in case of errors.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/XCorrelationId'
+        X-Request-ID:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  securitySchemes:
+
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |-
+        A token obtained from a separate endpoint using client credentials and an OAuth 1.0a HMAC-SHA256 signed request.
+
+        For more information on how to get a bearer token, see the
