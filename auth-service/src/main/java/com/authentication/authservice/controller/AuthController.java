@@ -30,6 +30,7 @@ public class AuthController implements AuthApi {
     @PostMapping("/auth/signup")
     public ResponseEntity<Void> signupUser(@RequestBody User user){
            String token = authService.register(user);
+
             return new ResponseEntity(token,HttpStatus.OK);
     }
 }

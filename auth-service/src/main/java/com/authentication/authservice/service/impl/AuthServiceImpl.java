@@ -3,6 +3,7 @@ package com.authentication.authservice.service.impl;
 import com.authentication.authservice.config.JWTTokenProvider;
 import com.authentication.authservice.entity.Role;
 import com.authentication.authservice.entity.User;
+import com.authentication.authservice.repository.RoleRepository;
 import com.authentication.authservice.repository.UserRepository;
 import com.authentication.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
     @Autowired
     private JWTTokenProvider jwtTokenProvider;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public String register(@Validated com.myCode.pradnya.server.cult.model.User user) {
@@ -54,7 +57,11 @@ public class AuthServiceImpl implements AuthService {
         Set<GrantedAuthority> claims=user.getRoles().stream().map((role)->{
             return new SimpleGrantedAuthority(role);
         }).collect(Collectors.toSet());
+        Set<Role> roleDb=user.getRoles().stream().map((r)->{
+            return   roleRepository.findByName(r.toString());
+        }).collect(Collectors.toSet());
 
+        userRepository.save(userDb);
 
         String token = jwtTokenProvider.generateToken(user.getUserName());
         return token;

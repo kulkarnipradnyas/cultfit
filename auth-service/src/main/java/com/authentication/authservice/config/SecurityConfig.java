@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,28 +20,31 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+    @Autowired
     private JWTAuthorizationEntryPoint authenticationEntryPoint;
 
     @Autowired
     private JwtAuthenticationFilter authenticationFilter;
 
+
     public SecurityConfig() {
         // default constructor
     }
 
-    public SecurityConfig(JWTAuthorizationEntryPoint authenticationEntryPoint, JwtAuthenticationFilter authenticationFilter) {
+    public SecurityConfig(JWTAuthorizationEntryPoint authenticationEntryPoint,JwtAuthenticationFilter authenticationFilter ) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.authenticationFilter=authenticationFilter;
     }
 
-    public SecurityConfig(JWTAuthorizationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
+//    @Bean
+//    public JwtAuthenticationFilter authenticationFilter() {
+//        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -58,15 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .anyRequest().authenticated()
 
                 )
-                //.addFilterBefore(new PermitAllFilter("/auth/signup"), UsernamePasswordAuthenticationFilter.class)
-              //  .addFilterBefore(authenticationFilter, PermitAllFilter.class)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//                .exceptionHandling( exception -> exception
-//                        .authenticationEntryPoint(authenticationEntryPoint)
-//                ).sessionManagement( session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                );
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterAfter(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 //        http.addFilterAfter(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
