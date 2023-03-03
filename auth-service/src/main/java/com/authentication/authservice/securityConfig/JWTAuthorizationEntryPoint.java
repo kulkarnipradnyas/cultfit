@@ -1,4 +1,4 @@
-package com.authentication.authservice.config;
+package com.authentication.authservice.securityConfig;
 
 
 import org.springframework.security.core.AuthenticationException;

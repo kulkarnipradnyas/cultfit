@@ -9,55 +9,55 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * SecurityQuestion
+ * AuthSignInBody
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-03-03T02:32:44.003435+05:30[Asia/Kolkata]")
 
 
-public class SecurityQuestion   {
-  @JsonProperty("question")
-  private String question = null;
+public class AuthSignInBody   {
+  @JsonProperty("userName")
+  private String userName = null;
 
-  @JsonProperty("answer")
-  private String answer = null;
+  @JsonProperty("password")
+  private String password = null;
 
-  public SecurityQuestion question(String question) {
-    this.question = question;
+  public AuthSignInBody userName(String userName) {
+    this.userName = userName;
     return this;
   }
 
   /**
-   * Get question
-   * @return question
+   * Get userName
+   * @return userName
    **/
   @Schema(description = "")
   
-    public String getQuestion() {
-    return question;
+    public String getUserName() {
+    return userName;
   }
 
-  public void setQuestion(String question) {
-    this.question = question;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-  public SecurityQuestion answer(String answer) {
-    this.answer = answer;
+  public AuthSignInBody password(String password) {
+    this.password = password;
     return this;
   }
 
   /**
-   * Get answer
-   * @return answer
+   * Get password
+   * @return password
    **/
   @Schema(description = "")
   
-    public String getAnswer() {
-    return answer;
+    public String getPassword() {
+    return password;
   }
 
-  public void setAnswer(String answer) {
-    this.answer = answer;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 
@@ -69,23 +69,23 @@ public class SecurityQuestion   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SecurityQuestion securityQuestion = (SecurityQuestion) o;
-    return Objects.equals(this.question, securityQuestion.question) &&
-        Objects.equals(this.answer, securityQuestion.answer);
+    AuthSignInBody authSignInBody = (AuthSignInBody) o;
+    return Objects.equals(this.userName, authSignInBody.userName) &&
+        Objects.equals(this.password, authSignInBody.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(question, answer);
+    return Objects.hash(userName, password);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SecurityQuestion {\n");
+    sb.append("class AuthSignInBody {\n");
     
-    sb.append("    question: ").append(toIndentedString(question)).append("\n");
-    sb.append("    answer: ").append(toIndentedString(answer)).append("\n");
+    sb.append("    userName: ").append(toIndentedString(userName)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }

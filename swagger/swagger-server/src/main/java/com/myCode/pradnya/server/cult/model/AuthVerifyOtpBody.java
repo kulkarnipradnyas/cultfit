@@ -9,55 +9,33 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * SecurityQuestion
+ * AuthVerifyOtpBody
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-03-03T02:32:44.003435+05:30[Asia/Kolkata]")
 
 
-public class SecurityQuestion   {
-  @JsonProperty("question")
-  private String question = null;
+public class AuthVerifyOtpBody   {
+  @JsonProperty("otp")
+  private String otp = null;
 
-  @JsonProperty("answer")
-  private String answer = null;
-
-  public SecurityQuestion question(String question) {
-    this.question = question;
+  public AuthVerifyOtpBody otp(String otp) {
+    this.otp = otp;
     return this;
   }
 
   /**
-   * Get question
-   * @return question
+   * Get otp
+   * @return otp
    **/
   @Schema(description = "")
   
-    public String getQuestion() {
-    return question;
+    public String getOtp() {
+    return otp;
   }
 
-  public void setQuestion(String question) {
-    this.question = question;
-  }
-
-  public SecurityQuestion answer(String answer) {
-    this.answer = answer;
-    return this;
-  }
-
-  /**
-   * Get answer
-   * @return answer
-   **/
-  @Schema(description = "")
-  
-    public String getAnswer() {
-    return answer;
-  }
-
-  public void setAnswer(String answer) {
-    this.answer = answer;
+  public void setOtp(String otp) {
+    this.otp = otp;
   }
 
 
@@ -69,23 +47,21 @@ public class SecurityQuestion   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SecurityQuestion securityQuestion = (SecurityQuestion) o;
-    return Objects.equals(this.question, securityQuestion.question) &&
-        Objects.equals(this.answer, securityQuestion.answer);
+    AuthVerifyOtpBody authVerifyOtpBody = (AuthVerifyOtpBody) o;
+    return Objects.equals(this.otp, authVerifyOtpBody.otp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(question, answer);
+    return Objects.hash(otp);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SecurityQuestion {\n");
+    sb.append("class AuthVerifyOtpBody {\n");
     
-    sb.append("    question: ").append(toIndentedString(question)).append("\n");
-    sb.append("    answer: ").append(toIndentedString(answer)).append("\n");
+    sb.append("    otp: ").append(toIndentedString(otp)).append("\n");
     sb.append("}");
     return sb.toString();
   }

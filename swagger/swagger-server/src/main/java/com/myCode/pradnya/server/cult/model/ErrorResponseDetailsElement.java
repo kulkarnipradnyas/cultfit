@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Error response details element")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-02-25T18:16:18.488114+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-03-03T02:32:44.003435+05:30[Asia/Kolkata]")
 
 
 public class ErrorResponseDetailsElement   {

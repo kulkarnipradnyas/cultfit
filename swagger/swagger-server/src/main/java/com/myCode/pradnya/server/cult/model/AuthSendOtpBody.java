@@ -9,55 +9,34 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * SecurityQuestion
+ * AuthSendOtpBody
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-03-03T02:32:44.003435+05:30[Asia/Kolkata]")
 
 
-public class SecurityQuestion   {
-  @JsonProperty("question")
-  private String question = null;
+public class AuthSendOtpBody   {
+  @JsonProperty("phoneNumber")
+  private String phoneNumber = null;
 
-  @JsonProperty("answer")
-  private String answer = null;
-
-  public SecurityQuestion question(String question) {
-    this.question = question;
+  public AuthSendOtpBody phoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
     return this;
   }
 
   /**
-   * Get question
-   * @return question
+   * Get phoneNumber
+   * @return phoneNumber
    **/
-  @Schema(description = "")
-  
-    public String getQuestion() {
-    return question;
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getPhoneNumber() {
+    return phoneNumber;
   }
 
-  public void setQuestion(String question) {
-    this.question = question;
-  }
-
-  public SecurityQuestion answer(String answer) {
-    this.answer = answer;
-    return this;
-  }
-
-  /**
-   * Get answer
-   * @return answer
-   **/
-  @Schema(description = "")
-  
-    public String getAnswer() {
-    return answer;
-  }
-
-  public void setAnswer(String answer) {
-    this.answer = answer;
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
   }
 
 
@@ -69,23 +48,21 @@ public class SecurityQuestion   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SecurityQuestion securityQuestion = (SecurityQuestion) o;
-    return Objects.equals(this.question, securityQuestion.question) &&
-        Objects.equals(this.answer, securityQuestion.answer);
+    AuthSendOtpBody authSendOtpBody = (AuthSendOtpBody) o;
+    return Objects.equals(this.phoneNumber, authSendOtpBody.phoneNumber);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(question, answer);
+    return Objects.hash(phoneNumber);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SecurityQuestion {\n");
+    sb.append("class AuthSendOtpBody {\n");
     
-    sb.append("    question: ").append(toIndentedString(question)).append("\n");
-    sb.append("    answer: ").append(toIndentedString(answer)).append("\n");
+    sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
     sb.append("}");
     return sb.toString();
   }

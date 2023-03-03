@@ -1,24 +1,20 @@
-use user_db;
-CREATE TABLE IF NOT EXISTS flyway_schema_history (
-    installed_rank INT NOT NULL,
-    version VARCHAR(50),
-    description VARCHAR(200) NOT NULL,
-    type VARCHAR(20) NOT NULL,
-    script VARCHAR(1000) NOT NULL,
-    checksum INT,
-    installed_by VARCHAR(100) NOT NULL,
-    installed_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    execution_time INT NOT NULL,
-    success BOOLEAN NOT NULL
+CREATE TABLE IF NOT EXISTS user_db.flyway_schema_history (
+  installed_rank INTEGER NOT NULL,
+  version varchar(50) DEFAULT NULL,
+  description varchar(200) NOT NULL,
+  type varchar(20) NOT NULL,
+  script varchar(1000) NOT NULL,
+  checksum INTEGER DEFAULT NULL,
+  installed_by varchar(100) NOT NULL,
+  installed_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  execution_time INTEGER NOT NULL,
+  success BOOLEAN NOT NULL,
+  PRIMARY KEY (installed_rank)
 );
 
+--INSERT INTO flyway_schema_history (installed_rank, version, description,     type, script, checksum, installed_by, installed_on, execution_time, success)
+--SELECT installed_rank, version, description, type, script, checksum,     installed_by, installed_on, execution_time, success
+--FROM schema_version;
 
-CREATE TABLE IF NOT EXISTS roles (
-    id BIGINT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
-);
+--ALTER TABLE schema_version RENAME TO bak_schema_version;
 
-INSERT INTO roles(id,name) VALUES (1,'USER');
-INSERT INTO roles(id,name) VALUES (2,'ADMIN');
-INSERT INTO roles(id,name) VALUES (3,'VENDOR');

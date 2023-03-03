@@ -5,6 +5,9 @@
  */
 package com.myCode.pradnya.server.cult.api;
 
+import com.myCode.pradnya.server.cult.model.AuthSendOtpBody;
+import com.myCode.pradnya.server.cult.model.AuthSignInBody;
+import com.myCode.pradnya.server.cult.model.AuthVerifyOtpBody;
 import com.myCode.pradnya.server.cult.model.ErrorResponse;
 import com.myCode.pradnya.server.cult.model.ExternalErrorResponse;
 import com.myCode.pradnya.server.cult.model.User;
@@ -41,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-02-25T18:16:18.488114+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-03-03T02:32:44.003435+05:30[Asia/Kolkata]")
 @Validated
 public interface AuthApi {
 
@@ -59,8 +62,54 @@ public interface AuthApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
+    @Operation(summary = "Example endpoint", description = "", security = {
+        @SecurityRequirement(name = "sessionAuth")    }, tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK") })
+    @RequestMapping(value = "/auth/example",
+        method = RequestMethod.GET)
+    default ResponseEntity<Void> authExampleGet() {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AuthApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Sends an OTP to the specified phone number", description = "", security = {
+        @SecurityRequirement(name = "sessionAuth")    }, tags={ "Cult Auth" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = ""),
+        
+        @ApiResponse(responseCode = "401", description = "The request requires user authentication", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExternalErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "403", description = "The request cannot be fulfilled", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExternalErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "500", description = "The server encountered an unexpected condition that prevented it from fulfilling the request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "502", description = "The server received an invalid response from the upstream server", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "503", description = "The server is not ready to handle the request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "504", description = "The server did not get a response in time", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "5XX", description = "API response in case of errors.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))) })
+    @RequestMapping(value = "/auth/sendOtp",
+        produces = "application/json", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    default ResponseEntity<Void> sendOtp(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody AuthSendOtpBody body, @Parameter(in = ParameterIn.HEADER, description = "Auto-generated ID, which uniquely identifies the request, available in the response.  When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Correlation-ID", required=false) String xCorrelationID, @Parameter(in = ParameterIn.HEADER, description = "User-provided token that can be used to trace a request or a group of requests sent to the service.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Request-ID", required=false) String xRequestID) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AuthApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @Operation(summary = "User SignIn", description = "", security = {
-        @SecurityRequirement(name = "Bearer")    }, tags={ "Cult Auth" })
+        @SecurityRequirement(name = "sessionAuth")    }, tags={ "Cult Auth" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = ""),
         
@@ -81,7 +130,7 @@ public interface AuthApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    default ResponseEntity<Void> signIn(@Parameter(in = ParameterIn.HEADER, description = "Auto-generated ID, which uniquely identifies the request, available in the response.  When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Correlation-ID", required=false) String xCorrelationID, @Parameter(in = ParameterIn.HEADER, description = "User-provided token that can be used to trace a request or a group of requests sent to the service.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Request-ID", required=false) String xRequestID) {
+    default ResponseEntity<Void> signIn(@Parameter(in = ParameterIn.DEFAULT, description = "SignIn User", required=true, schema=@Schema()) @Valid @RequestBody AuthSignInBody body, @Parameter(in = ParameterIn.HEADER, description = "Auto-generated ID, which uniquely identifies the request, available in the response.  When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Correlation-ID", required=false) String xCorrelationID, @Parameter(in = ParameterIn.HEADER, description = "User-provided token that can be used to trace a request or a group of requests sent to the service.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Request-ID", required=false) String xRequestID) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AuthApi interface so no example is generated");
@@ -91,7 +140,7 @@ public interface AuthApi {
 
 
     @Operation(summary = "Create User Signup", description = "", security = {
-        @SecurityRequirement(name = "Bearer")    }, tags={ "Cult Auth" })
+        @SecurityRequirement(name = "sessionAuth")    }, tags={ "Cult Auth" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = ""),
         
@@ -113,6 +162,37 @@ public interface AuthApi {
         consumes = "application/json",
         method = RequestMethod.POST)
     default ResponseEntity<Void> signupUser(@Parameter(in = ParameterIn.DEFAULT, description = "Create User", required=true, schema=@Schema()) @Valid @RequestBody User body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AuthApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Verify OTP", description = "", security = {
+        @SecurityRequirement(name = "sessionAuth")    }, tags={ "Cult Auth" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = ""),
+        
+        @ApiResponse(responseCode = "401", description = "The request requires user authentication", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExternalErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "403", description = "The request cannot be fulfilled", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExternalErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "500", description = "The server encountered an unexpected condition that prevented it from fulfilling the request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "502", description = "The server received an invalid response from the upstream server", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "503", description = "The server is not ready to handle the request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "504", description = "The server did not get a response in time", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+        
+        @ApiResponse(responseCode = "5XX", description = "API response in case of errors.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))) })
+    @RequestMapping(value = "/auth/verifyOtp",
+        produces = "application/json", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    default ResponseEntity<Void> verifyOtp(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody AuthVerifyOtpBody body, @Parameter(in = ParameterIn.HEADER, description = "Auto-generated ID, which uniquely identifies the request, available in the response.  When contacting support with an inquiry regarding a specific request, provide the value of this header which will help troubleshooting the issue.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Correlation-ID", required=false) String xCorrelationID, @Parameter(in = ParameterIn.HEADER, description = "User-provided token that can be used to trace a request or a group of requests sent to the service.  If not present, one will be generated." ,schema=@Schema()) @RequestHeader(value="X-Request-ID", required=false) String xRequestID) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AuthApi interface so no example is generated");

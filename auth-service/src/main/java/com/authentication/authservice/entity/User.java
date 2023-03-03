@@ -3,13 +3,14 @@ package com.authentication.authservice.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-
+@Data
 @Entity
 @Table(name="User")
 public class User {
@@ -29,6 +30,18 @@ public class User {
     private String workEmailId;
     @Column(nullable = false,unique = true)
     private String phoneNumber;
+
+    @Column(name = "otp_email")
+    private String otpEmail;
+
+    @Column(name = "otp_email_expiry")
+    private LocalDateTime otpEmailExpiry;
+
+    @Column(name = "otp_phone")
+    private String otpPhone;
+
+    @Column(name = "otp_phone_expiry")
+    private LocalDateTime otpPhoneExpiry;
 
 // LAZY = fetch when needed, EAGER = fetch immediately
 // CascadeType.ALL- all operation propagation from user to roles

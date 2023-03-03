@@ -1,6 +1,8 @@
 package com.authentication.authservice.service.impl;
 
-import com.authentication.authservice.config.JWTTokenProvider;
+import com.authentication.authservice.exception.CultServiceException;
+import com.authentication.authservice.exception.ErrorCodes;
+import com.authentication.authservice.securityConfig.JWTTokenProvider;
 import com.authentication.authservice.entity.Role;
 import com.authentication.authservice.entity.User;
 import com.authentication.authservice.repository.RoleRepository;
@@ -9,17 +11,12 @@ import com.authentication.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 @Service
@@ -47,16 +44,22 @@ public class AuthServiceImpl implements AuthService {
         userDb.setEmail(user.getEmail());
         userDb.setPhoneNumber(user.getPhoneNumber());
         userDb.setWorkEmailId(user.getWorkEmailId());
-        List<String> roleStrings = user.getRoles();
-        Set<Role> roles = IntStream.range(0, roleStrings.size())
-                .mapToObj(i -> new Role((long) i,roleStrings.get(i)))
-                .collect(Collectors.toSet());
+
+
+        Set<Role> roles = new HashSet<>();
+        for (String roleName : user.getRoles()) {
+            Role role = roleRepository.findByName(roleName);
+            if (role == null) {
+                throw new RuntimeException( "Role not found: " + roleName);
+            }
+            roles.add(role);
+        }
         userDb.setRoles(roles);
         userDb.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
-        Set<GrantedAuthority> claims=user.getRoles().stream().map((role)->{
-            return new SimpleGrantedAuthority(role);
-        }).collect(Collectors.toSet());
+//        Set<GrantedAuthority> claims=user.getRoles().stream().map((role)->{
+//            return new SimpleGrantedAuthority(role);
+//        }).collect(Collectors.toSet());
         Set<Role> roleDb=user.getRoles().stream().map((r)->{
             return   roleRepository.findByName(r.toString());
         }).collect(Collectors.toSet());
@@ -65,5 +68,16 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtTokenProvider.generateToken(user.getUserName());
         return token;
+    }
+
+    @Override
+    public String signIn(String userName, String password) {
+       User user= userRepository.findByUserName(userName).orElseThrow(()->{
+           throw new CultServiceException(ErrorCodes.E311036,"User does not exist.");
+       });
+       if(!BCrypt.checkpw(password, user.getPassword())){
+           throw new CultServiceException(ErrorCodes.E311036, "Please provide correct password");
+       }
+        return jwtTokenProvider.generateToken(userName);
     }
 }

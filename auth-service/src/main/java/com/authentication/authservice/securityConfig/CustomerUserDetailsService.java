@@ -1,4 +1,4 @@
-package com.authentication.authservice.config;
+package com.authentication.authservice.securityConfig;
 
 import com.authentication.authservice.entity.User;
 import com.authentication.authservice.repository.UserRepository;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

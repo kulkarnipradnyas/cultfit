@@ -13,9 +13,11 @@ tags:
     description: Manage Cult Authentication
   - name: API Information
     description: Manage Cult Information
+#security:
+#  - Bearer: []
+#  - httpSession: []
 security:
-  - Bearer: []
-
+   - sessionAuth: []
 paths:
 
   /health:
@@ -121,6 +123,9 @@ paths:
         required: true
         content:
           application/json:
+            schema:
+              type: object
+              properties:
                 userName:
                   type: string
                 password:
@@ -153,6 +158,112 @@ paths:
         '5XX':
           $ref: '#/components/responses/ErrorResponse'
 
+  /auth/sendOtp:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+
+    post:
+      summary: Sends an OTP to the specified phone number
+      operationId: sendOtp
+      tags:
+        - Cult Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+              required:
+                - phoneNumber
+      responses:
+        '200':
+          content:
+            application/json:
+              message:
+                type: string
+
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+      security:
+        - sessionAuth: []
+
+  /auth/verifyOtp:
+    parameters:
+      - $ref: '#/components/parameters/XCorrelationId'
+      - $ref: '#/components/parameters/XRequestId'
+
+    post:
+      summary: Verify OTP
+      operationId: verifyOtp
+      tags:
+        - Cult Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                otp:
+                  type: string
+                  required:
+                    - otp
+      responses:
+        '200':
+          content:
+            application/json:
+              message:
+                type: string
+
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/XCorrelationId'
+            X-Request-ID:
+              $ref: '#/components/headers/XRequestId'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        '5XX':
+          $ref: '#/components/responses/ErrorResponse'
+      security:
+        - sessionAuth: []
+
+  /auth/example:
+    get:
+      summary: Example endpoint
+      responses:
+        200:
+          description: OK
 
   /version:
     parameters:
@@ -260,6 +371,14 @@ components:
       example: REQ-7a0cdf45-c095-49ca-b1bd-6e12e153a5a7
 
   parameters:
+
+    HttpSession:
+      name: JSESSIONID
+      in: cookie
+      required: true
+      schema:
+        type: string
+      description: Session cookie
 
     XCorrelationId:
       in: header
@@ -690,12 +809,15 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
 
   securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
 
-    Bearer:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |-
-        A token obtained from a separate endpoint using client credentials and an OAuth 1.0a HMAC-SHA256 signed request.
-
-        For more information on how to get a bearer token, see the
+#    Bearer:
+#      type: http
+#      scheme: bearer
+#      bearerFormat: JWT
+#      description: |-
+#        A token obtained from a separate endpoint using client credentials and an OAuth 1.0a HMAC-SHA256 signed request.
+#

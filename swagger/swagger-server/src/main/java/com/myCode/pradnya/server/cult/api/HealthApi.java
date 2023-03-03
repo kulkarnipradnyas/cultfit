@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-02-25T18:16:18.488114+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-03-03T02:32:44.003435+05:30[Asia/Kolkata]")
 @Validated
 public interface HealthApi {
 
@@ -59,7 +59,7 @@ public interface HealthApi {
     }
 
     @Operation(summary = "Get health", description = "Get the health of the service", security = {
-        @SecurityRequirement(name = "Bearer")    }, tags={ "API Information" })
+        @SecurityRequirement(name = "sessionAuth")    }, tags={ "API Information" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "the service health status"),
         
